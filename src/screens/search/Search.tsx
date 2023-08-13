@@ -19,9 +19,10 @@ import {
   TabContainer,
   LatestSearch,
   SmallImage,
-  RowView,
+  Header,
   RelationContainer,
   BackButton,
+  ScrollContainer,
 } from './Search.style'
 import { SearchTab } from './tabs/SearchTab'
 
@@ -80,7 +81,7 @@ const Search = () => {
 
   return (
     <Container>
-      <RowView>
+      <Header>
         <BackButton
           onPress={() => {
             navigation.goBack()
@@ -95,50 +96,50 @@ const Search = () => {
           onSubmitEditing={handleSearch}
           onFocus={() => setIsFocus(true)}
         />
-      </RowView>
-
-      {latestSearchData !== undefined && !searchText && (
-        <>
-          <LatestContainer>
-            <LatestSearch>{i18n.t('recentlySearchText')}</LatestSearch>
-            <TouchableOpacity onPress={handleRemoveAllLatest}>
-              <AllRemoveText>{i18n.t('allRemove')}</AllRemoveText>
-            </TouchableOpacity>
-          </LatestContainer>
-          {latestSearchData.keywords.map((item) => (
-            <LatestContainer key={item.latestSearchId}>
-              <TouchableOpacity onPress={() => handleSelectItem(item.word)}>
-                <ItemText>{item.word}</ItemText>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleRemoveLatest(item.latestSearchId)}>
-                <SmallImage source={defaultIcons.grayCloseButton} />
+      </Header>
+      <ScrollContainer>
+        {latestSearchData && latestSearchData?.keywords.length > 0 && !searchText && (
+          <>
+            <LatestContainer>
+              <LatestSearch>{i18n.t('recentlySearchText')}</LatestSearch>
+              <TouchableOpacity onPress={handleRemoveAllLatest}>
+                <AllRemoveText>{i18n.t('allRemove')}</AllRemoveText>
               </TouchableOpacity>
             </LatestContainer>
-          ))}
-        </>
-      )}
-
-      {searchRelation !== undefined && searchText && isFocus && (
-        <>
-          {searchRelation.map((item) => (
-            <RelationContainer key={item}>
-              <Image
-                source={defaultIcons.search}
-                style={{ marginRight: 12, marginTop: 5 }}
-              />
-              <TouchableOpacity onPress={() => handleSelectItem(item)}>
-                <ItemText>{item}</ItemText>
-              </TouchableOpacity>
-            </RelationContainer>
-          ))}
-        </>
-      )}
-
-      <TabContainer>
-        {searchText && searchData !== undefined && !isFocus && (
-          <SearchTab searchData={searchData} />
+            {latestSearchData.keywords.map((item) => (
+              <LatestContainer key={item.latestSearchId}>
+                <TouchableOpacity onPress={() => handleSelectItem(item.word)}>
+                  <ItemText>{item.word}</ItemText>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleRemoveLatest(item.latestSearchId)}>
+                  <SmallImage source={defaultIcons.grayCloseButton} />
+                </TouchableOpacity>
+              </LatestContainer>
+            ))}
+          </>
         )}
-      </TabContainer>
+
+        {searchRelation && searchRelation.length > 0 && searchText && isFocus && (
+          <>
+            {searchRelation.map((item) => (
+              <RelationContainer key={item}>
+                <Image
+                  source={defaultIcons.search}
+                  style={{ marginRight: 12, marginTop: 5 }}
+                />
+                <TouchableOpacity onPress={() => handleSelectItem(item)}>
+                  <ItemText>{item}</ItemText>
+                </TouchableOpacity>
+              </RelationContainer>
+            ))}
+          </>
+        )}
+        <TabContainer>
+          {searchText && searchData !== undefined && !isFocus && (
+            <SearchTab searchData={searchData} />
+          )}
+        </TabContainer>
+      </ScrollContainer>
     </Container>
   )
 }

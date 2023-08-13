@@ -4,13 +4,16 @@ import { colors } from '@/styles/colors'
 import { fonts } from '@/styles/fonts'
 
 export const Container = styled.View`
-  display: flex;
   padding: 0px 25px;
+  width: 100%;
 `
 
-export const RowView = styled.View`
+export const ScrollContainer = styled.ScrollView``
+
+export const Header = styled.View`
   flex-direction: row;
   align-items: center;
+  margin-top: 10px;
 `
 
 export const BackButton = styled.TouchableOpacity`
@@ -21,7 +24,6 @@ export const LatestContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 11px;
-  padding: 0px 25px;
 `
 
 export const RelationContainer = styled.View`
@@ -61,7 +63,6 @@ export const TabContainer = styled.View`
 
 export const TabItemContainer = styled.View`
   display: flex;
-  padding: 0px 25px;
   height: 100%;
   background-color: ${colors.yellow200};
 `
